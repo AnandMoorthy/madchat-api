@@ -23,6 +23,10 @@ class RegisterUserView(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, *args, **kwargs):
+        '''
+        This module will register a user with the input of username and
+        password
+        '''
         username = request.data.get("username", "")
         password = request.data.get("password", "")
         email = request.data.get("email", "")
@@ -44,6 +48,9 @@ class LoginView(generics.CreateAPIView):
     queryset = User.objects.all()
 
     def post(self, request, *args, **kwargs):
+        '''
+        This module will login the user and return the JWT Token
+        '''
         username = request.data.get("username", "")
         password = request.data.get("password", "")
         user = authenticate(request, username=username, password=password)
@@ -62,12 +69,18 @@ class LoginView(generics.CreateAPIView):
 
 
 class UserListView(generics.ListAPIView):
+    '''
+    List all the users
+    '''
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
 
 class GroupListView(generics.ListAPIView):
+    '''
+    List all the groups
+    '''
     queryset = Groups.objects.all()
     serializer_class = GroupSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -86,6 +99,9 @@ class DirectMessageView(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
+        '''
+        GET Direct messsages between two users by user pk
+        '''
         try:
             dm = self.queryset.filter(
                 to_user__in=[kwargs["pk"], request.user.id],
@@ -108,6 +124,9 @@ class GroupMessageView(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
+        '''
+        GET Group messages by group id
+        '''
         try:
             group_messages = self.queryset.filter(group=kwargs["id"])
             return Response(GroupMessageSerializer(
