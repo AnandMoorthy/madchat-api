@@ -1,5 +1,8 @@
 import json
 
+from django.shortcuts import render
+from django.utils.safestring import mark_safe
+
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework_jwt.settings import api_settings
@@ -17,6 +20,16 @@ from .models import Groups, DirectMessages, GroupMessages, GroupMembers
 # Get the JWT settings, add these lines after the import/from lines
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+
+def index(request):
+    return render(request, 'chat/index.html', {})
+
+
+def room(request, room_name):
+    return render(request, 'chat/room.html', {
+        'room_name_json': mark_safe(json.dumps(room_name))
+    })
 
 
 class RegisterUserView(generics.CreateAPIView):

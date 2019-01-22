@@ -41,18 +41,23 @@ class DirectMessageSerializer(serializers.ModelSerializer):
     '''
     This serializer serialize user data
     '''
+    from_user = UserSerializer()
+
     class Meta:
         model = DirectMessages
-        fields = ("from_user", "to_user", "message", "added_on")
+        fields = ("id", "from_user", "to_user", "message", "added_on")
 
 
 class GroupMessageSerializer(serializers.ModelSerializer):
     '''
     This serializer serialize group message data
     '''
+    user = UserSerializer()
+
     class Meta:
         model = GroupMessages
-        fields = ("user", "message", "added_on")
+        fields = ("id", "user", "message", "added_on")
+        # fields = "__all__"
 
 
 # class DirectMessageDetailsSerialzier(serializers.ModelSerializer):

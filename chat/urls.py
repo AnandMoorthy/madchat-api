@@ -1,9 +1,11 @@
 from django.conf.urls import url
 
 from .views import UserListView, GroupListView, LoginView, RegisterUserView
-from .views import DirectMessageView, GroupMessageView
+from .views import DirectMessageView, GroupMessageView, index, room
 
 urlpatterns = [
+    # url(r'^$', index, name='index'),
+    # url(r'^(?P<room_name>[^/]+)/$', room, name='room'),
     url(r'^auth/login/?$', LoginView.as_view(), name="user-login"),
     url(r'^auth/register/?$', RegisterUserView.as_view(), name="user-register"),
     url(r'^users/?$', UserListView.as_view(), name="users-all"),
